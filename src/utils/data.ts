@@ -1,5 +1,19 @@
-
-const data: { products: IProduct[] } = {
+import bcrypt from 'bcryptjs'
+const data: { products: IProduct[], users: IUsers[] } = {
+    users: [
+        {
+            name: "Jhon",
+            email: "admin@example.com",
+            password: bcrypt.hashSync('123456'),
+            isAdmin: true
+        },
+        {
+            name: "Jhon",
+            email: "user@example.com",
+            password: bcrypt.hashSync('123456'),
+            isAdmin: false
+        }
+    ],
     products: [
         {
             name: 'Free Shirt',

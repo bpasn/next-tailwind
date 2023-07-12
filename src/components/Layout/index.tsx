@@ -5,18 +5,21 @@ import { useSelector } from 'react-redux'
 import Head from 'next/head'
 import Link from 'next/link'
 import React from 'react'
+import { ToastContainer } from 'react-toastify'
 import { JsxElement } from 'typescript';
-
+import { useSession } from 'next-auth/react';
+import 'react-toastify/dist/ReactToastify.css'
 type Props = {
     children: React.ReactNode
 }
 
 const LayOut: React.FC<Props> = ({ children }) => {
     const { cart: { cartItems } } = useSelector(selectCart)
-    
+    const { status, data: session } = useSession()
     return (
 
         <div className="flex min-h-screen flex-col justify-between">
+            <ToastContainer position='bottom-center' limit={1} />
             <header>
                 <nav className="flex h12 items-center px-4 justify-between shadow-md">
                     <Link href={"/"} className='text-lg font-bold'>amazona</Link>
@@ -27,17 +30,21 @@ const LayOut: React.FC<Props> = ({ children }) => {
                                 {cartItems.reduce((a, c) => a + c.quantity, 0)}
                             </span> : ''}
                         </Link>
-                        <Link href="/login" className="p-2">
-                            Login
-                        </Link>
-                    </div>
-                </nav>
-            </header>
+
+                        {status === 'loading' ? ("Loading") : (session?.user ? session.user.name : (
+                            <Link href="/login" className="p-2">
+                                Login</Link>
+
+                        ))}
+
+                    </div >
+                </nav >
+            </header >
             <main className="container m-auto mt-4 px-4">{children}</main>
             <footer className="flex h-10 justify-center items-center shadow-inner">
                 <p>Copyright © 2022 Amazona</p>
             </footer>
-        </div>
+        </div >
 
     )
 }
