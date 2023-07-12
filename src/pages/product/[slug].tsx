@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import Image from 'next/image';
 import { useAppDispatch, useAppSelector } from '@/hook/useReduxHook';
-import { selectCart } from '@/utils/slice/cartSlice';
+import { selectCart, setCartItem } from '@/utils/slice/cartSlice';
 import { AppDispatch } from '@/utils/Store';
 type Props = {}
 
@@ -23,7 +23,7 @@ const ProductScreen = (props: Props) => {
         if (Number(existItem?.countInStock) < quantity) {
             return alert('Sorry. Product is out of stock');
         }
-        dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
+        dispatch(setCartItem({ ...product, quantity }));
     };
     return (
         <>

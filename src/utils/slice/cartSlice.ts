@@ -40,7 +40,7 @@ export const cartSlice = createSlice({
             const cartItems = existItem ?
                 state.cart.cartItems.map(item => item.name === existItem.name ? newItem : item)
                 : [...state.cart.cartItems, newItem]
-
+                
             useStorage().setItem("cart", JSON.stringify({ ...state.cart, cartItems }), "session")
             return { ...state, cart: { ...state.cart, cartItems } }
         },
