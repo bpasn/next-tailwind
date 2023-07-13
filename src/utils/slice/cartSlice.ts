@@ -2,21 +2,38 @@
 import { ActionReducerMapBuilder, PayloadAction, createAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { AppState } from '../Store';
 import useStorage from '@/hook/useStorage';
+import { toast } from 'react-toastify';
 
 export interface ICartItem extends IProduct {
     quantity: number
 }
 
+export interface ShippingForm {
+    fullName: string;
+    address: string;
+    city: string;
+    postalCode: string;
+    country: string
+}
+
 export interface InitialCartItem {
     cart: {
-        cartItems: ICartItem[]
+        cartItems: ICartItem[],
+        shippingAddress: ShippingForm,
+        paymentMethod: string
     }
 }
-const getCart = (): { cartItems: ICartItem[] } | {
-    cartItems: []
+const getCart = (): {
+    cartItems: [],
+    shippingAddress: ShippingForm,
+    paymentMethod: ""
 } => {
-    return useStorage().getItem("cart", "session") ? JSON.parse(useStorage().getItem("cart", "session")) : { cartItems: [] }
-   
+    return useStorage().getItem("cart", "session") ? JSON.parse(useStorage().getItem("cart", "session")) : {
+        cartItems: [],
+        shippingAddress: {} as ShippingForm,
+        paymentMethod: ""
+    }
+
 
 }
 const init: InitialCartItem = {
@@ -40,7 +57,7 @@ export const cartSlice = createSlice({
             const cartItems = existItem ?
                 state.cart.cartItems.map(item => item.name === existItem.name ? newItem : item)
                 : [...state.cart.cartItems, newItem]
-                
+
             useStorage().setItem("cart", JSON.stringify({ ...state.cart, cartItems }), "session")
             return { ...state, cart: { ...state.cart, cartItems } }
         },
@@ -49,8 +66,37 @@ export const cartSlice = createSlice({
             useStorage().setItem("cart", JSON.stringify({ ...state.cart, cartItems }), "session")
             return { ...state, cart: { ...state.cart, cartItems } }
         },
-        cartItemReset() { return init }
+        cartItemReset() {
+            useStorage().removeItem("cart", "session")
+            return init
+        },
+        saveShippingAddress(state, action: PayloadAction<ShippingForm>) {
+            return {
+                ...state,
+                cart: {
+                    ...state.cart,
+                    shippingAddress: {
+                        ...state.cart.shippingAddress,
+                        ...action.payload
+                    }
+                }
+            }
+        },
+        savePaymentMethod(state, action:PayloadAction<string>) {
+            return {
+                ...state,
+                cart: {
+                    ...state.cart,
+                    paymentMethod: action.payload
+                }
+            }
+        }
     },
+    // extraReducers(builder) {
+    //     builder.addCase("SAVE_PAYMENT_METHOD", (state, action) => {
+    //         return
+    //     })
+    // },
     // extraReducers(builder: ActionReducerMapBuilder<InitialCartItem>) {
     //     builder.addMatcher(
     //         isAnyOf(actionAddCart, actionRemoveCart),
@@ -73,6 +119,6 @@ export const cartSlice = createSlice({
     // },
 })
 
-export const { setCartItem, cartItemReset, removeCartItem } = cartSlice.actions;
+export const { setCartItem, cartItemReset, removeCartItem, saveShippingAddress ,savePaymentMethod} = cartSlice.actions;
 export const selectCart = (state: AppState) => state.cartReduce
 export default cartSlice.reducer

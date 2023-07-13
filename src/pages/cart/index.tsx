@@ -6,19 +6,27 @@ import { useSelector } from 'react-redux'
 import React from 'react'
 import Image from 'next/image';
 import { XCircleIcon } from '@heroicons/react/outline'
+import axios from 'axios';
+import { toast } from 'react-toastify';
 type Props = {}
 
 const CartScreen = (props: Props) => {
     const router = useRouter();
     const { cart: { cartItems } } = useSelector(selectCart)
     const dispatch = useAppDispatch()
-    const removeItemHandler = (item: ICartItem) => dispatch(removeCartItem(item))
-    const updateCartHandler = (item: ICartItem, qty: string) => {
+    const removeItemHandler = (item: ICartItem) => {
+        dispatch(removeCartItem(item))
+        toast.success("Remove product form cart successfully")
+
+    }
+    const updateCartHandler = async (item: { _id?: string } & ICartItem, qty: string) => {
         const quantity = Number(qty);
-        if (quantity > item.countInStock) {
-            return alert("Sorry. Product is out of stock");
+        const { data } = await axios.get<IProduct>(`/api/products/${item._id}`)
+        if (data.countInStock < quantity ) {
+            return toast.error("Sorry. Product is out of stock");
         }
         dispatch(setCartItem({ ...item, quantity }))
+        toast.success("Product update to the cart successfully")
     }
     return (
         <>

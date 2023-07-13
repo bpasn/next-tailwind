@@ -6,24 +6,35 @@ import Image from 'next/image';
 import { useAppDispatch, useAppSelector } from '@/hook/useReduxHook';
 import { selectCart, setCartItem } from '@/utils/slice/cartSlice';
 import { AppDispatch } from '@/utils/Store';
-type Props = {}
+import { GetServerSideProps, GetServerSidePropsContext, PreviewData } from 'next';
+import db from '@/utils/db';
+import ProductModel from '@/modelSchema/Product.schema';
+import { ParsedUrlQuery } from 'querystring';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+type Props = {
+    product: { _id?: string } & IProduct | null
+}
 
-const ProductScreen = (props: Props) => {
-    const { query } = useRouter();
+const ProductScreen: React.FC<Props> = ({ product }) => {
     const { cart } = useAppSelector(selectCart)
     const dispatch: AppDispatch = useAppDispatch()
-    const { slug } = query
-    const product = data.products.find(x => x.slug === slug);
     if (!product) return <div>Product Not Found</div>
-
+    console.log({
+        product
+    })
     const addToCartHandler = async () => {
         const existItem = cart.cartItems.find((x) => x.slug === product.slug);
         const quantity = existItem ? existItem.quantity + 1 : 1;
 
-        if (Number(existItem?.countInStock) < quantity) {
-            return alert('Sorry. Product is out of stock');
+        const { data } = await axios.get<IProduct>(`/api/products/${product._id}`)
+        
+        if (data.countInStock < quantity) {
+            return toast.error('Sorry. Product is out of stock');
         }
         dispatch(setCartItem({ ...product, quantity }));
+        toast.success("Product update to the cart successfully")
+
     };
     return (
         <>
@@ -78,5 +89,22 @@ const ProductScreen = (props: Props) => {
         </>
     )
 }
-
+interface MyParsedUrlQuery extends ParsedUrlQuery {
+    slug: string;
+}
+export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
+    const { params } = context
+    const { slug } = params as MyParsedUrlQuery
+    await db.connect();
+    const product = await ProductModel.findOne({ slug }).lean()
+    console.log(db.convertDocToObj(product as IProduct) as IProduct)
+    return {
+        props: {
+            product: {
+                ...db.convertDocToObj(product as IProduct) as IProduct,
+                _id: product?._id
+            } as IProduct
+        }
+    }
+}
 export default ProductScreen
