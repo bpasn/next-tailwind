@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  database:
+    image: mongo:5.0.5
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=123456
+      - MONGO_INITDB_DATABASE=next_tailwind
+      - MONGO_INITDB_USERNAME=next_user
+      - MONGO_INITDB_PASSWORD=111111
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+      - ./db:/data/db
