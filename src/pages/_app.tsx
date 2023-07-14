@@ -17,12 +17,10 @@ const MyApp: React.FunctionComponent<MyAppProp> = (props) => {
   const { Component, pageProps: { session, ...pageProps }, ...appProps } = props;
   const [loading, setLoading] = React.useState<boolean>(false);
   Router.events.on("routeChangeStart", (url) => {
-    console.log("Router is changing...")
     setLoading(true);
   })
 
   Router.events.on("routeChangeComplete", (url) => {
-    console.log("Route is changing is complete ...")
     setLoading(false)
   })
   const [hydrated, setHydrated] = React.useState(false);

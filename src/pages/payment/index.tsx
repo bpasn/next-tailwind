@@ -6,9 +6,10 @@ import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
 import { toast } from 'react-toastify';
 
-type Props = {}
+type Props = {
+}
 
-const PaymentScreen: React.FC<Props> = ({ }) => {
+const PaymentScreen: React.FunctionComponent<Props> & { auth?: boolean } = (props: Props) => {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const [selectedPaymentMethod, setSelectPaymentMethod] = React.useState<string>();
@@ -68,3 +69,5 @@ const PaymentScreen: React.FC<Props> = ({ }) => {
 }
 
 export default PaymentScreen
+
+PaymentScreen.auth = true;

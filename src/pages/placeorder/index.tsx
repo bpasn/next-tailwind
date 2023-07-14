@@ -1,15 +1,54 @@
 import { CheckoutWizard } from '@/components'
-import { useAppSelector } from '@/hook/useReduxHook'
+import { useAppDispatch, useAppSelector } from '@/hook/useReduxHook'
 import { selectCart } from '@/utils/slice/cartSlice'
+import { actionPlaceOrder } from '@/utils/slice/createAction'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React from 'react'
 
 type Props = {}
 
-const PlaceOrderScreen = (props: Props) => {
+const PlaceOrderScreen: React.FunctionComponent<Props> & { auth: boolean } = (props: Props) => {
+    const dispatch = useAppDispatch();
     const { cart } = useAppSelector(selectCart)
-    const { cartItems, shippingAddress, paymentMethod } = cart
+
+    const { cartItems, paymentMethod, shippingAddress } = cart;
+    const round2 = (num: number) => Math.round(num * 100 + Number.EPSILON) / 100;
+    const itemsPrice = round2(cartItems.reduce((a, c) => a + c.quantity * c.price, 0)); //123.4567 => 123.46
+
+    const shippingPrice = itemsPrice > 200 ? 0 : 15;
+    const taxPrice = round2(itemsPrice * 0.15);
+    const totalPrice = round2(itemsPrice + shippingPrice + taxPrice)
+    const router = useRouter();
+    React.useEffect(() => {
+        if (!paymentMethod) {
+            router.push("/payment")
+        }
+    }, [paymentMethod, router])
+
+    const [loading, setLoading] = React.useState(false);
+
+    const placeOrderHandler = async () => {
+        dispatch(actionPlaceOrder({
+            request: {
+                orderItems: cartItems,
+                shippingAddress,
+                paymentMethod,
+                itemsPrice,
+                shippingPrice,
+                taxPrice,
+                totalPrice
+            },
+            router
+        }))
+        // try {
+        //     router.push(`/order/${product._id}`)
+        // } catch (error) {
+        //     setLoading(false)
+        //     toast.error(getError(error))
+        // }
+    }
     return (
         <div>
             <CheckoutWizard activeStep={3} />
@@ -88,44 +127,45 @@ const PlaceOrderScreen = (props: Props) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="card p-5">
-                                <h2 className="mb-2 text-lg">Order Summary</h2>
-                                <ul>
-                                    <li>
-                                        <div className="mb-2 flex justify-between">
-                                            <div>Items</div>
-                                            <div>${itemsPrice}</div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div className="mb-2 flex justify-between">
-                                            <div>Tax</div>
-                                            <div>${taxPrice}</div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div className="mb-2 flex justify-between">
-                                            <div>Shipping</div>
-                                            <div>${shippingPrice}</div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div className="mb-2 flex justify-between">
-                                            <div>Total</div>
-                                            <div>${totalPrice}</div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <button
-                                            disabled={loading}
-                                            onClick={placeOrderHandler}
-                                            className="primary-button w-full"
-                                        >
-                                            {loading ? 'Loading...' : 'Place Order'}
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
+
+                        </div>
+                        <div className="card p-5">
+                            <h2 className="mb-2 text-lg">Order Summary</h2>
+                            <ul>
+                                <li>
+                                    <div className="mb-2 flex justify-between">
+                                        <div>Items</div>
+                                        <div>${itemsPrice}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div className="mb-2 flex justify-between">
+                                        <div>Tax</div>
+                                        <div>${taxPrice}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div className="mb-2 flex justify-between">
+                                        <div>Shipping</div>
+                                        <div>${shippingPrice}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div className="mb-2 flex justify-between">
+                                        <div>Total</div>
+                                        <div>${totalPrice}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <button
+                                        disabled={loading}
+                                        onClick={placeOrderHandler}
+                                        className="primary-button w-full"
+                                    >
+                                        {loading ? 'Loading...' : 'Place Order'}
+                                    </button>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 )

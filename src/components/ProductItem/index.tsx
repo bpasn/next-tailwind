@@ -2,8 +2,8 @@ import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
 type Props = {
-    product: IProduct,
-    addToCartHandler: (event: IProduct) => void
+    product: ICartItem,
+    addToCartHandler: (event: ICartItem) => void
 }
 
 const ProductItem: React.FC<Props> = ({ product, addToCartHandler }) => {

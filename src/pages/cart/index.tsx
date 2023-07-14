@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/hook/useReduxHook';
-import { ICartItem, removeCartItem, selectCart, setCartItem } from '@/utils/slice/cartSlice';
+import {  removeCartItem, selectCart, setCartItem } from '@/utils/slice/cartSlice';
 import Link from 'next/link';
 import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
@@ -31,7 +31,7 @@ const CartScreen = (props: Props) => {
     return (
         <>
             <h1 className="mb-4 text-xl">Shopping Cart</h1>
-            {cartItems.length === 0 ? (
+            {!cartItems?.length ? (
                 <div>
                     Cart is empty. <Link href="/">Go shopping</Link>
                 </div>
@@ -48,7 +48,7 @@ const CartScreen = (props: Props) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {cartItems.map((item) => (
+                                {cartItems?.map((item) => (
                                     <tr key={item.slug} className="border-b">
                                         <td>
                                             <Link
@@ -97,8 +97,8 @@ const CartScreen = (props: Props) => {
                         <ul>
                             <li>
                                 <div className="pb-3 text-xl">
-                                    Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}) : $
-                                    {cartItems.reduce((a, c) => a + c.quantity * c.price, 0)}
+                                    Subtotal ({cartItems?.reduce((a, c) => a + c.quantity, 0)}) : $
+                                    {cartItems?.reduce((a, c) => a + c.quantity * c.price, 0)}
                                 </div>
                             </li>
                             <li>

@@ -4,21 +4,26 @@ import ProductModel from '@/modelSchema/Product.schema'
 import { AppDispatch } from '@/utils/Store'
 import data from '@/utils/data'
 import db from '@/utils/db'
-import { actionAddCart, selectCart, setCartItem } from '@/utils/slice/cartSlice'
+import { getError } from '@/utils/error'
+import { ShippingForm, actionAddCart, clearCartItem, selectCart, setCartItem } from '@/utils/slice/cartSlice'
 import axios from 'axios'
 import { GetServerSideProps } from 'next'
+import { useRouter } from 'next/router'
 import React from 'react'
-import { toast } from 'react-toastify'
+import { toast } from 'react-toastify';
 
 type Props = {
-    products: { _id?: string }[] & IProduct[];
+    products: ICartItem[];
 }
 
 function App({ products }: Props) {
     const dispatch: AppDispatch = useAppDispatch()
-    const { cart } = useAppSelector(selectCart)
-    const addToCartHandler = async (product: { _id?: string } & IProduct) => {
-        const existItem = cart.cartItems.find((x) => x.slug === product.slug);
+    const { cart, loading, error } = useAppSelector(selectCart)
+    console.log({
+        cart:{}, loading, error
+    })
+    const addToCartHandler = async (product: ICartItem) => {
+        const existItem = cart.cartItems?.find((x) => x.slug === product.slug);
         const quantity = existItem ? existItem.quantity + 1 : 1;
 
         const { data } = await axios.get<IProduct>(`/api/products/${product._id}`)
@@ -32,9 +37,10 @@ function App({ products }: Props) {
     };
     return (
         <div className="grid grid-cols-1 gap-4 md:grid-cols3 lg:grid-cols-4">
-            {products.map((product: IProduct) => 
-            <ProductItem product={product} 
-            key={product.name} addToCartHandler={addToCartHandler} />)}
+            {products.map((product: ICartItem) =>
+                <ProductItem product={product}
+                    key={product.name}
+                    addToCartHandler={addToCartHandler} />)}
         </div>
     )
 }
@@ -44,7 +50,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
     const products = await ProductModel.find().lean();
     return {
         props: {
-            products: products.map(db.convertDocToObj) as IProduct[],
+            products: products.map(db.convertDocToObj) as ICartItem[],
         }
     }
 }
