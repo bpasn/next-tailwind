@@ -3,6 +3,8 @@ import { ShippingForm } from "@/utils/slice/cartSlice";
 interface IOrders {
     user: IUsers,
     orderItems: {
+        _id?: string;
+        slug?: string;
         name: string;
         quantity: number;
         image: string;
@@ -18,4 +20,5 @@ interface IOrders {
     isDelivered: boolean;
     paidAt: Date;
     deliveredAt: Date;
+    
 }

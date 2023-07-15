@@ -52,7 +52,7 @@ const LayOut: React.FC<Props> = ({ children }) => {
                                             </DropdownLink>
                                         </Menu.Item>
                                         <Menu.Item>
-                                            <DropdownLink href={'/order-history'} className="dropdown-link">
+                                            <DropdownLink href={'/order/history'} className="dropdown-link">
                                                 Order History
                                             </DropdownLink>
                                         </Menu.Item>

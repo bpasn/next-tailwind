@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { getError } from '@/utils/error'
 import { useRouter } from 'next/router'
+import { ILoginForm, LoginForm } from '@/utils/form/LoginValid'
 type Props = {}
 
 const LoginScreen: React.FC<Props> = ({ }) => {
@@ -42,6 +43,16 @@ const LoginScreen: React.FC<Props> = ({ }) => {
         <div>
             <form action="" className="mx-auto max-w-screen-md" onSubmit={handleSubmit(submitHandler)}>
                 <h1 className="mb-4 text-xl">Login</h1>
+                {/* {LoginForm.map((item: ILoginForm) => (
+                    <div className="mb-4">
+                        <label htmlFor={item.inputProps?.id}>{item.lable}</label>
+                        <input 
+                            {...item.inputProps}
+                            {...register('email', {...item.option})}
+                        />
+                        {errors && errors.email && (<div className='text-red-500'>{errors?.email?.message as string}</div>)}
+                    </div>
+                ))} */}
                 <div className="mb-4">
                     <label htmlFor="email">Email</label>
                     <input type="email"
