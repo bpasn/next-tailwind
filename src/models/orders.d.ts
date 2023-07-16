@@ -19,6 +19,7 @@ interface IOrders {
 
 interface IOrderItem {
     _id?: string;
+    brand: string;
     slug: string;
     name: string;
     quantity: number;

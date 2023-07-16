@@ -20,15 +20,14 @@ const ProductScreen: React.FC<Props> = ({ product }) => {
     const { cart } = useAppSelector(selectCart)
     const dispatch: AppDispatch = useAppDispatch()
     if (!product) return <div>Product Not Found</div>
-    console.log({
-        product
-    })
+    const { query } = useRouter()
+    const { redirect } = query
     const addToCartHandler = async () => {
         const existItem = cart.cartItems.find((x) => x.slug === product.slug);
         const quantity = existItem ? existItem.quantity + 1 : 1;
 
         const { data } = await axios.get<IProduct>(`/api/products/${product._id}`)
-        
+
         if (data.countInStock < quantity) {
             return toast.error('Sorry. Product is out of stock');
         }
@@ -39,7 +38,7 @@ const ProductScreen: React.FC<Props> = ({ product }) => {
     return (
         <>
             <div className="py-2">
-                <Link href="/">back to products</Link>
+                <Link href={redirect ? redirect.toString() : '/'}>back to products</Link>
             </div>
             <div className="grid md:grid-cols-4 md:gap-3">
                 <div className="md:col-span-2">
@@ -97,7 +96,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
     const { slug } = params as MyParsedUrlQuery
     await db.connect();
     const product = await ProductModel.findOne({ slug }).lean()
-    console.log(db.convertDocToObj(product as IProduct) as IProduct)
     return {
         props: {
             product: {

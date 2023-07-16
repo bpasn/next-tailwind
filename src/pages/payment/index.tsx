@@ -11,6 +11,7 @@ type Props = {
 
 const PaymentScreen: React.FunctionComponent<Props> & { auth?: boolean } = (props: Props) => {
     const router = useRouter();
+    const {redirect} = router.query
     const dispatch = useAppDispatch();
     const [selectedPaymentMethod, setSelectPaymentMethod] = React.useState<string>();
     const { cart } = useAppSelector(selectCart)
@@ -56,7 +57,7 @@ const PaymentScreen: React.FunctionComponent<Props> & { auth?: boolean } = (prop
                 }
                 <div className="mb-4 flex justify-between">
                     <button className="default-button"
-                        onClick={() => router.push("/shipping")}
+                        onClick={() => router.push(redirect ? redirect.toString() : '/shipping')}
                         type='button'
                     >
                         Back

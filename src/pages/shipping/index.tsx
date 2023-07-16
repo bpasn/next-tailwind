@@ -2,7 +2,7 @@ import { CheckoutWizard, InputComponent } from '@/components'
 import { useAppDispatch, useAppSelector } from '@/hook/useReduxHook';
 import useStorage from '@/hook/useStorage';
 import { AppDispatch } from '@/utils/Store';
-import { ShippingForm, saveShippingAddress, selectCart } from '@/utils/slice/cartSlice';
+import { saveShippingAddress, selectCart } from '@/utils/slice/cartSlice';
 import { useRouter } from 'next/router';
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -16,8 +16,9 @@ export default function ShippingScreen() {
         formState: { errors },
         setValue,
         getValues
-    } = useForm<ShippingForm>()
+    } = useForm<IShipping>()
     const router = useRouter();
+    const {redirect} = router.query
     const dispatch: AppDispatch = useAppDispatch()
     const { cart } = useAppSelector(selectCart)
     const { shippingAddress } = cart;
@@ -30,7 +31,7 @@ export default function ShippingScreen() {
     }, [setValue, shippingAddress.address, shippingAddress.city, shippingAddress.country, shippingAddress.fullName, shippingAddress.postalCode])
 
 
-    const submitHandler = (shipping: ShippingForm) => {
+    const submitHandler = (shipping: IShipping) => {
         dispatch(saveShippingAddress(shipping))
         useStorage().setItem("cart", JSON.stringify({
             ...cart,
@@ -38,7 +39,7 @@ export default function ShippingScreen() {
                 ...shipping
             }
         }))
-        router.push("/payment")
+        router.push(redirect ? redirect.toString() : '/payment')
     }
     return (
         <div>

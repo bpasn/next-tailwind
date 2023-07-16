@@ -64,14 +64,14 @@ const PlaceOrderScreen: React.FunctionComponent<Props> & { auth: boolean } = (pr
                                     {shippingAddress.country}
                                 </div>
                                 <div>
-                                    <Link href="/shipping">Edit</Link>
+                                    <Link href="/shipping?redirect=/placeorder">Edit</Link>
                                 </div>
                             </div>
                             <div className="cart p-5">
                                 <h2 className="mb-2 text-lg">Payment Method</h2>
                                 <div>{paymentMethod}</div>
                                 <div>
-                                    <Link href="/payment">Edit</Link>
+                                    <Link href="/payment?redirect=/placeorder">Edit</Link>
                                 </div>
                             </div>
                             <div className="card overflow-x-auto p-5">
@@ -92,7 +92,7 @@ const PlaceOrderScreen: React.FunctionComponent<Props> & { auth: boolean } = (pr
                                                 <tr key={item.slug} className="border-b">
                                                     <td>
                                                         <Link
-                                                            href={`/product/${item.slug}`}
+                                                            href={`/product/${item.slug}?redirect=/placeorder`}
                                                             className="flex items-center gap-2"
                                                         >
                                                             <Image
@@ -117,7 +117,7 @@ const PlaceOrderScreen: React.FunctionComponent<Props> & { auth: boolean } = (pr
                                         </tbody>
                                     </table>
                                     <div>
-                                        <Link href="/cart">Edit</Link>
+                                        <Link href="/cart?redirect=/placeorder">Edit</Link>
                                     </div>
                                 </div>
                             </div>

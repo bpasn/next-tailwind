@@ -5,11 +5,12 @@ const orderSchema = new mongoose.Schema<IOrders>({
     user: { type: mongoose.Schema.Types.String, ref: "User", require: true },
     orderItems: [
         {
+            slug: { type: String, required: true },
+            brand: { type: String, required: true },
             name: { type: String, required: true },
             quantity: { type: Number, required: true },
             image: { type: String, required: true },
             price: { type: String, required: true },
-            slug: { type: String, required: true },
         }
     ],
     shippingAddress: {

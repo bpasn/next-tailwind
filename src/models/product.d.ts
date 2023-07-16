@@ -11,4 +11,6 @@ interface IProduct {
     description: string;
     isFeatured?: boolean;
     banner?: string;
+    
+
 }

@@ -6,16 +6,9 @@ import { toast } from 'react-toastify';
 import { actionPlaceOrder } from './createAction';
 
 
-export interface ShippingForm {
-    fullName: string;
-    address: string;
-    city: string;
-    postalCode: string;
-    country: string
-}
 interface ICart {
     cartItems: ICartItem[],
-    shippingAddress: ShippingForm,
+    shippingAddress: IShipping,
     paymentMethod: string
 }
 export interface InitialCartItem {
@@ -26,7 +19,7 @@ export interface InitialCartItem {
 const getCart = (): ICart => {
     return useStorage().getItem("cart", "session") ? JSON.parse(useStorage().getItem("cart", "session")) as ICart : {
         cartItems: [] as ICartItem[],
-        shippingAddress: {} as ShippingForm,
+        shippingAddress: {} as IShipping,
         paymentMethod: ""
     } as ICart
 
@@ -72,7 +65,7 @@ export const cartSlice = createSlice({
             useStorage().removeItem("cart", "session")
             return init
         },
-        saveShippingAddress(state, action: PayloadAction<ShippingForm>) {
+        saveShippingAddress(state, action: PayloadAction<IShipping>) {
             return {
                 ...state,
                 cart: {

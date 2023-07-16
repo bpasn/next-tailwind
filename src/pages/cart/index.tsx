@@ -12,6 +12,7 @@ type Props = {}
 
 const CartScreen = (props: Props) => {
     const router = useRouter();
+    const {redirect} = router.query
     const { cart: { cartItems } } = useSelector(selectCart)
     const dispatch = useAppDispatch()
     const removeItemHandler = (item: ICartItem) => {
@@ -103,7 +104,7 @@ const CartScreen = (props: Props) => {
                             </li>
                             <li>
                                 <button
-                                    onClick={() => router.push('login?redirect=/shipping')}
+                                    onClick={() => router.push(`login?redirect=${redirect ? redirect.toString() : '/shipping'}`)}
                                     className="primary-button w-full"
                                 >
                                     Check Out

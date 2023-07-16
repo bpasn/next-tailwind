@@ -49,7 +49,7 @@ const LayOut: React.FC<Props> = ({ children }) => {
         <div className=" flex min-h-screen flex-col justify-between">
             <ToastContainer autoClose={10} position='bottom-center' limit={1} />
             <header>
-                <nav className="flex h12 items-center px-4 justify-between shadow-md">
+                <nav className="flex h-12 items-center px-4 justify-between shadow-md">
                     <Link href={"/"} className='text-lg font-bold'>amazona</Link>
                     <div className='flex items-center z-10'>
                         <Link href="/cart" className="p-2">
@@ -71,10 +71,10 @@ const LayOut: React.FC<Props> = ({ children }) => {
                                                 Profile
                                             </DropdownLink>
                                         </Menu.Item>
-                                        {session.isAdmin && (
+                                        {session.user.isAdmin && (
                                             <Menu.Item>
-                                                <DropdownLink href={'/profile'} className="dropdown-link">
-                                                    Profile
+                                                <DropdownLink href={'/admin'} className="dropdown-link">
+                                                    Admin
                                                 </DropdownLink>
                                             </Menu.Item>
                                         )}

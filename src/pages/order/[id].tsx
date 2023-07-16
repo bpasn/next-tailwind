@@ -82,27 +82,30 @@ const OrderScreen: React.FC<Props> & { auth?: boolean } = (props: Props) => {
                                     </thead>
                                     <tbody>
             
-                                        {!_.isEmpty(orderItems) && orderItems.map(item => (
-                                            <tr key={item.name} className="border-b">
-                                                <td>
-                                                    <Link href={`/product/${item.slug}`} className="flex items-center">
-                                                        <Image
-                                                            src={item.image}
-                                                            alt={item.name}
-                                                            width={50}
-                                                            height={50}
-                                                        />
-                                                        &nbsp;
-                                                        {item.name}
-                                                    </Link>
-                                                </td>
-                                                <td className="p-5 text-right">{item.quantity}</td>
-                                                <td className="p-5 text-right">{item.price}</td>
-                                                <td className="p-5 text-right">
-                                                    ${item.quantity * item.price}
-                                                </td>
-                                            </tr>
-                                        ))}
+                                        {!_.isEmpty(orderItems) && orderItems.map(item => {
+                                            console.log(item.slug)
+                                            return (
+                                                <tr key={item.name} className="border-b">
+                                                    <td>
+                                                        <Link href={`/product/${item.slug}?redirect=/order/${orderId}`} className="flex items-center">
+                                                            <Image
+                                                                src={item.image}
+                                                                alt={item.name}
+                                                                width={50}
+                                                                height={50}
+                                                            />
+                                                            &nbsp;
+                                                            {item.name}
+                                                        </Link>
+                                                    </td>
+                                                    <td className="p-5 text-right">{item.quantity}</td>
+                                                    <td className="p-5 text-right">{item.price}</td>
+                                                    <td className="p-5 text-right">
+                                                        ${item.quantity * item.price}
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })}
                                     </tbody>
                                 </table>
                             </div>
