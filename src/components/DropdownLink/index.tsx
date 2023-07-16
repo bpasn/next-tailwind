@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { ReactElement } from 'react'
+import React, { HTMLAttributes, ReactElement } from 'react'
 
 type Props = {
     href: string;
@@ -9,7 +9,7 @@ type Props = {
 const DropdownLink: React.FC<Props> = (props) => {
     const { href, children, ...rest } = props;
     return (
-        <Link href={href} {...rest} >{children}</Link>
+        <Link {...rest} href={href} >{children}</Link>
     )
 }
 

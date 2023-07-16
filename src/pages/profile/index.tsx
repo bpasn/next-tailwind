@@ -5,7 +5,6 @@ type Props = {}
 
 const ProfileScreen = (props: Props) => {
     const { data: session } = useSession()
-    console.log(session)
     return (
         <div>
             <form className='mx-auto max-w-screen-md'>

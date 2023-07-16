@@ -4,7 +4,7 @@ import { cartItemReset, selectCart } from '@/utils/slice/cartSlice'
 import { useSelector } from 'react-redux'
 import Head from 'next/head'
 import Link from 'next/link'
-import React from 'react'
+import React, { Fragment } from 'react'
 import { ToastContainer } from 'react-toastify'
 import { JsxElement } from 'typescript';
 import { signOut, useSession } from 'next-auth/react';
@@ -15,7 +15,27 @@ import { AppDispatch } from '@/utils/Store';
 type Props = {
     children: React.ReactNode
 }
-
+interface IMenuItem {
+    name: string;
+    href: string;
+    isAdmin?: boolean;
+}
+const menu: IMenuItem[] = [
+    {
+        name: "profile",
+        href: "/profile"
+    },
+    {
+        name: "admin",
+        href: "/admin",
+        isAdmin: true
+    },
+    {
+        name: "Order History",
+        href: "/orders/history"
+    },
+   
+]
 const LayOut: React.FC<Props> = ({ children }) => {
     const { cart: { cartItems } } = useSelector(selectCart)
     const { status, data: session } = useSession()
@@ -46,11 +66,18 @@ const LayOut: React.FC<Props> = ({ children }) => {
                                         {session.user.name}
                                     </Menu.Button>
                                     <Menu.Items className={"absolute right-0 w-56 origin-top-right bg-white shadow-lg"}>
-                                        <Menu.Item>
-                                            <DropdownLink href={'/profile'} className="dropdown-link">
+                                        <Menu.Item as={Fragment}>
+                                            <DropdownLink itemRef='' href={'/profile'} className="dropdown-link">
                                                 Profile
                                             </DropdownLink>
                                         </Menu.Item>
+                                        {session.isAdmin && (
+                                            <Menu.Item>
+                                                <DropdownLink href={'/profile'} className="dropdown-link">
+                                                    Profile
+                                                </DropdownLink>
+                                            </Menu.Item>
+                                        )}
                                         <Menu.Item>
                                             <DropdownLink href={'/order/history'} className="dropdown-link">
                                                 Order History

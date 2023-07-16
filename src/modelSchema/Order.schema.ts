@@ -2,13 +2,14 @@ import { IOrders } from "@/models/orders";
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema<IOrders>({
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", require: true },
+    user: { type: mongoose.Schema.Types.String, ref: "User", require: true },
     orderItems: [
         {
             name: { type: String, required: true },
             quantity: { type: Number, required: true },
             image: { type: String, required: true },
             price: { type: String, required: true },
+            slug: { type: String, required: true },
         }
     ],
     shippingAddress: {

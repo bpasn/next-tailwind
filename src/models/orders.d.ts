@@ -1,16 +1,10 @@
 import { ShippingForm } from "@/utils/slice/cartSlice";
 
+
 interface IOrders {
-    user: IUsers,
-    orderItems: {
-        _id?: string;
-        slug?: string;
-        name: string;
-        quantity: number;
-        image: string;
-        price: number
-    }[],
-    shippingAddress: ShippingForm,
+    user: string;
+    orderItems: IOrderItem[];
+    shippingAddress: ShippingForm;
     paymentMethod: string;
     itemsPrice: number;
     shippingPrice: number;
@@ -21,4 +15,13 @@ interface IOrders {
     paidAt: Date;
     deliveredAt: Date;
     
+}
+
+interface IOrderItem {
+    _id?: string;
+    slug: string;
+    name: string;
+    quantity: number;
+    image: string;
+    price: number
 }

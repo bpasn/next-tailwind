@@ -38,16 +38,10 @@ const PlaceOrderScreen: React.FunctionComponent<Props> & { auth: boolean } = (pr
                 itemsPrice,
                 shippingPrice,
                 taxPrice,
-                totalPrice
+                totalPrice,
             },
             router
         }))
-        // try {
-        //     router.push(`/order/${product._id}`)
-        // } catch (error) {
-        //     setLoading(false)
-        //     toast.error(getError(error))
-        // }
     }
     return (
         <div>

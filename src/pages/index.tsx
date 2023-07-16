@@ -18,10 +18,8 @@ type Props = {
 
 function App({ products }: Props) {
     const dispatch: AppDispatch = useAppDispatch()
-    const { cart, loading, error } = useAppSelector(selectCart)
-    console.log({
-        cart:{}, loading, error
-    })
+    const { cart } = useAppSelector(selectCart)
+    
     const addToCartHandler = async (product: ICartItem) => {
         const existItem = cart.cartItems?.find((x) => x.slug === product.slug);
         const quantity = existItem ? existItem.quantity + 1 : 1;

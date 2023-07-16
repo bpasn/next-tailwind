@@ -15,10 +15,12 @@ export default middleware(async (req: MyRequest, res: NextApiResponse) => {
 
     try {
         await db.connect();
-        const newOrder = new OrderModel({
+        const newOrder = new OrderModel<IOrders>({
             ...req.body,
-            user: token._id
+            orderItems:req.body.orderItems,
+            user: token._id as string
         })
+        console.log(newOrder.orderItems)
         const order = await newOrder.save();
         res.status(201).json(order)
     } catch (error) {

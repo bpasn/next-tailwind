@@ -1,10 +1,9 @@
 import { useAppDispatch, useAppSelector } from '@/hook/useReduxHook'
-import { IOrders } from '@/models/orders'
 import { AppDispatch } from '@/utils/Store'
-import { actionFetchOrder, selectOrder } from '@/utils/slice/orderSlice'
+import { actionFetchOrderById, selectOrder } from '@/utils/slice/orderSlice'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useReducer } from 'react'
+import React from 'react'
 import Image from 'next/image'
 import _ from 'lodash'
 type Props = {}
@@ -16,7 +15,7 @@ const OrderScreen: React.FC<Props> & { auth?: boolean } = (props: Props) => {
     const { order, loading, error } = useAppSelector(selectOrder)
     React.useEffect(() => {
         const fetchOrder = async () => {
-            dispatch(actionFetchOrder(orderId as string))
+            dispatch(actionFetchOrderById(orderId as string))
         }
         if (!order._id || (order._id && order._id !== orderId)) {
             fetchOrder()
@@ -86,7 +85,7 @@ const OrderScreen: React.FC<Props> & { auth?: boolean } = (props: Props) => {
                                         {!_.isEmpty(orderItems) && orderItems.map(item => (
                                             <tr key={item.name} className="border-b">
                                                 <td>
-                                                    <Link href={`/product/${item.name}`} className="flex items-center">
+                                                    <Link href={`/product/${item.slug}`} className="flex items-center">
                                                         <Image
                                                             src={item.image}
                                                             alt={item.name}
