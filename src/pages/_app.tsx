@@ -1,15 +1,15 @@
 'use client';
 import LayOut from '@/components/Layout';
 import "@/styles/global.css"
-import { wrapper } from '@/utils/Store';
+import { persistor, wrapper } from '@/utils/Store';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Router, useRouter } from 'next/router';
 import { SessionProvider, useSession } from 'next-auth/react';
-
+import {PersistGate} from 'redux-persist/integration/react'
 import React from 'react'
 import type { NextComponentType } from 'next/types';
-import { Backdrop } from '@/components';
+import { Backdrop, RootLayout } from '@/components';
 interface MyAppProp extends AppProps {
   Component: NextComponentType & { auth?: boolean };
 }
@@ -33,35 +33,40 @@ const MyApp: React.FunctionComponent<MyAppProp> = (props) => {
   }
   return (
     <SessionProvider session={session}>
-      {loading && <Backdrop />}
-      {Component.auth ? (
-        <Auth>
-          <React.Suspense fallback={loading && <>Loading....</>}>
-            <Head>
-              <title>Amazona</title>
-              <meta name="description" content="Ecommerce Website" />
-              <link rel="icon" href="/favicon.ico" />
-            </Head>
-            <LayOut>
-              <Component {...pageProps} />
-            </LayOut>
-          </React.Suspense>
-        </Auth>
-      ) :
-        (
-          <React.Suspense fallback={loading && <>Loading....</>}>
-            <Head>
-              <title>Amazona</title>
-              <meta name="description" content="Ecommerce Website" />
-              <link rel="icon" href="/favicon.ico" />
-            </Head>
-            <LayOut>
-              <Component {...pageProps} />
-            </LayOut>
-          </React.Suspense>
-        )
-      }
-
+      <PersistGate persistor={persistor} loading={null}>
+      <div className='font-bodyFont bg-gray-300'>
+        {loading && <Backdrop />}
+        {Component.auth ? (
+        
+          <Auth>
+            <React.Suspense fallback={loading && <>Loading....</>}>
+              <Head>
+                <title>Amazona</title>
+                <meta name="description" content="Ecommerce Website" />
+                <link rel="icon" href="/favicon.ico" />
+              </Head>
+              <RootLayout>
+                <Component {...pageProps} />
+              </RootLayout>
+            </React.Suspense>
+          </Auth> 
+        ) :
+          (
+            <React.Suspense fallback={loading && <>Loading....</>}>
+              <Head>
+                <title>Amazona</title>
+                <meta name="description" content="Ecommerce Website" />
+                <link rel="icon" href="/favicon.ico" />
+              </Head>
+              <RootLayout>
+                <Component {...pageProps} />
+              </RootLayout>
+            </React.Suspense>
+           
+          )
+        }
+      </div>
+      </PersistGate>
     </SessionProvider>
   )
 }
@@ -76,7 +81,7 @@ function Auth({ children }: { children: React.ReactNode }) {
   })
 
   if (status === 'loading') {
-    return <div>Loading...</div>
+    return <div >Loading...</div>
   }
   return children;
 }

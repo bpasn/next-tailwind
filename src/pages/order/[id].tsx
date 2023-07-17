@@ -59,7 +59,7 @@ const OrderScreen: React.FC<Props> & { auth?: boolean } = (props: Props) => {
                                 )}
                             </div>
 
-                            <div className="cart p-5">
+                            <div className="card p-5">
                                 <h2 className="mb-2 text-lg">Payment Method</h2>
                                 <div>{paymentMethod}</div>
                                 {isPaid ? (

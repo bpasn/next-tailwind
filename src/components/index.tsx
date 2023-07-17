@@ -4,6 +4,10 @@ import DropdownLink from "./DropdownLink";
 import LayOut from "./Layout";
 import InputComponent from "./InputComponent";
 import Backdrop from "./Backdrop";
+import RootLayout from "./RootLayout";
+import Header from "./Header";
+import Footer from "./Footer";
+import Banner from "./Banner";
 export {
     // LAYOUT 
     LayOut,
@@ -11,5 +15,9 @@ export {
     ProductItem,
     DropdownLink,
     InputComponent,
-    Backdrop
+    Backdrop,
+    RootLayout,
+    Header,
+    Footer,
+    Banner
 }

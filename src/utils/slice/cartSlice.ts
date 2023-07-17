@@ -43,7 +43,6 @@ export const cartSlice = createSlice({
     initialState: init,
     reducers: {
         setCartItem(state, action: PayloadAction<ICartItem>) {
-            console.log({ state })
             const newItem = action.payload;
             const existItem = state.cart.cartItems?.find(
                 item => item.slug === newItem.slug

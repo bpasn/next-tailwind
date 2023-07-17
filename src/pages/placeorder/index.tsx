@@ -67,7 +67,7 @@ const PlaceOrderScreen: React.FunctionComponent<Props> & { auth: boolean } = (pr
                                     <Link href="/shipping?redirect=/placeorder">Edit</Link>
                                 </div>
                             </div>
-                            <div className="cart p-5">
+                            <div className="card p-5">
                                 <h2 className="mb-2 text-lg">Payment Method</h2>
                                 <div>{paymentMethod}</div>
                                 <div>
