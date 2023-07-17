@@ -4,17 +4,17 @@ import BottomHeader from '../Header/BottomHeader'
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 type Props = {
-  children: ReactElement
+  children: React.ReactNode
 }
 
 const RootLayout = ({ children }: Props) => {
   return (
-    <div>
+    < >
       <Header />
       <BottomHeader />
-      {children}
+      <main>{children}</main>
       <Footer />
-    </div>
+    </>
   )
 }
 

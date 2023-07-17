@@ -35,16 +35,16 @@ export const nextSlice = createSlice({
                 return { ...state, favoriteData: [...state.favoriteData, action.payload] }
             }
         },
-        increaseQuantity: (state, action) => {
-            const existing = state.productData.find(item => item._id === action.payload._id);
+        increaseQuantity: (state, action:PayloadAction<string>) => {
+            const existing = state.productData.find(item => item._id === action.payload);
             existing && existing.quantity++
         },
-        decreaseQuantity: (state, action) => {
-            const existing = state.productData.find(item => item._id === action.payload._id);
+        decreaseQuantity: (state, action:PayloadAction<string>) => {
+            const existing = state.productData.find(item => item._id === action.payload);
             existing && existing.quantity > 1 && existing.quantity--
         },
-        deleteProduct: (state, action) => {
-            state.productData = state.productData.filter(item => item._id !== action.payload._id);
+        deleteProduct: (state, action:PayloadAction<string>) => {
+            state.productData = state.productData.filter(item => item._id !== action.payload);
         },
         resetCart(state) {
             state.productData = [];
@@ -52,7 +52,7 @@ export const nextSlice = createSlice({
         addUser(state, action) {
             state.userInfo = action.payload;
         },
-        removeUser(state, action) {
+        removeUser(state) {
             state.userInfo = null;
         },
         setAllProducts(state, action) {

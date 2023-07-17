@@ -10,8 +10,7 @@ type Props = {
 
 const MyApp = ({ products }: Props) => {
     return (
-        <main>
-            <div className='max-w-screen-2xl mx-auto'>
+            <div className="max-w-screen-2xl mx-auto">
                 <Banner />
                 <div className="relative md:-mt-020 lgl:-mt-32 xl:mt-60 z-20 mb-10">
                     <div className='w-full px-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6'>
@@ -21,7 +20,6 @@ const MyApp = ({ products }: Props) => {
                     </div>
                 </div>
             </div>
-        </main>
     )
 }
 
