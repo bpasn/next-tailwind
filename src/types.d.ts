@@ -15,6 +15,12 @@ interface StoreProduct extends ProductProps {
     quantity: number
 }
 
+interface StoreUser {
+    name:string;
+    email:string;
+    image:string;
+}
+
 
 interface StateProps {
     next: IInitialState

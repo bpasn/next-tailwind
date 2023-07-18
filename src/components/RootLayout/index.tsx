@@ -9,12 +9,12 @@ type Props = {
 
 const RootLayout = ({ children }: Props) => {
   return (
-    < >
+    <div className='flex min-h-screen flex-col justify-between'>
       <Header />
       <BottomHeader />
-      <main>{children}</main>
+      <main className="mt-4 px-1">{children}</main>
       <Footer />
-    </>
+    </div>
   )
 }
 

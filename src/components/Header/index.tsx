@@ -6,11 +6,26 @@ import { HiOutlineSearch } from 'react-icons/hi'
 import { SlLocationPin } from 'react-icons/sl'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
-import { IInitialState } from '@/utils/slice/nextSlice'
+import { IInitialState, addUser } from '@/utils/slice/nextSlice'
+import { signIn, useSession } from 'next-auth/react'
+import { useAppDispatch, useAppSelector } from '@/hook/useReduxHook'
+import React from 'react'
+import { userInfo } from 'os'
 type Props = {}
 
 const Header = (props: Props) => {
-    const { productData, favoriteData } = useSelector((state: StateProps) => state.next) as IInitialState
+    const { productData, favoriteData, userInfo } = useSelector((state: StateProps) => state.next) as IInitialState
+    const dispatch = useAppDispatch()
+    const { data: session } = useSession()
+    React.useEffect(() => {
+        if (session) {
+            dispatch(addUser({
+                name: session.user?.name,
+                email: session.user?.email,
+                image: session.user?.image
+            }))
+        }
+    }, [session])
     return (
         <header className='w-full h-20 bg-amazon_blue text-white sticky top-0 z-50'>
             <div className='h-full w-full mx-auto inline-flex items-center justify-between gap-1 mdl:gap-3 px-4'>
@@ -41,21 +56,32 @@ const Header = (props: Props) => {
                     </span>
                 </div>
                 {/* signin */}
-                <div className='text-xs text-gray-100 flex flex-col justify-center px-2 border border-transparent hover:border-white cursor-pointer duration-300 h-[70%]'>
-                    <p>Hello, sign in</p>
-                    <p className='text-white font-bold flex items-center'>Account & Lists
-                        <span>
-                            <BiCaretDown />
-                        </span>
-                    </p>
-                </div>
+                {userInfo ? (
+                    <div 
+                        className='flex items-center px-2 border border-transparent hover:border-white 
+                        cursor-pointer duration-300 h-[70%] gap-1'>
+                        <img src={userInfo.image.toString()} alt="userImage" className='w-8 h08 rounded-full object-cover' />
+                        <div className='text-xs text-gray-100 flex flex-col justify-between'>
+                            <p className='text-white font-bold'>{userInfo.name}</p>
+                            <p>{userInfo.email}</p>
+                        </div>
+                    </div>) : (
+                    <div onClick={() => signIn("github")} className='text-xs text-gray-100 flex flex-col justify-center px-2 border border-transparent hover:border-white cursor-pointer duration-300 h-[70%]'>
+                        <p>Hello, sign in</p>
+                        <p className='text-white font-bold flex items-center'>Account & Lists
+                            <span>
+                                <BiCaretDown />
+                            </span>
+                        </p>
+                    </div>
+                )}
                 {/* favorite */}
                 <div className='text-xs text-gray-100 flex flex-col justify-center px-2 border border-transparent hover:border-white cursor-pointer duration-300 h-[70%] relative'>
                     <p>Marked</p>
                     <p className='text-white font-bold'>& Favorite</p>
                     {favoriteData.length > 0 && (
-                            <span className='absolute right-2 top-2 w-4 h-4 border-[1px] order-gray-400 flex items-center justify-center text-xs text-amazon_yellow'>{favoriteData.length}</span>
-                        )
+                        <span className='absolute right-2 top-2 w-4 h-4 border-[1px] order-gray-400 flex items-center justify-center text-xs text-amazon_yellow'>{favoriteData.length}</span>
+                    )
                     }
                 </div>
                 {/* cart */}

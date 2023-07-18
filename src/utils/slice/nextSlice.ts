@@ -5,7 +5,7 @@ export interface IInitialState {
     productData: StoreProduct[];
     favoriteData: StoreProduct[];
     allProducts: StoreProduct[];
-    userInfo: null | string
+    userInfo: null | StoreUser
 }
 const initialState: IInitialState = {
     productData: [],

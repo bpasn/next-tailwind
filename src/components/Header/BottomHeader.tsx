@@ -1,9 +1,19 @@
+import { useAppDispatch } from '@/hook/useReduxHook'
+import { IInitialState, removeUser } from '@/utils/slice/nextSlice'
+import { signOut } from 'next-auth/react'
 import React from 'react'
 import {LuMenu} from 'react-icons/lu'
+import { useSelector } from 'react-redux'
 type Props = {}
 
 const BottomHeader = (props: Props) => {
-  return (
+    const { userInfo } = useSelector((state: StateProps) => state.next) as IInitialState
+const dispatch = useAppDispatch()
+    const handleSignout = () => {
+    signOut();
+    dispatch(removeUser())
+}
+    return (
     <div className='w-full h-10 bg-amazon_light text-sm text-white px-4
     flex items-center'>
         <p className='flex items-center gap-1 h-8 px-4 border border-transparent
@@ -37,10 +47,10 @@ const BottomHeader = (props: Props) => {
     <p className='hidden md:inline-flex items-center h-8 px-2 border
     border-transparent hover:border-white cursor-pointer duration-300 '>
         </p>
-        <p className='hidden md:inline-flex items-center h-8 px-2 border
+        <button onClick={handleSignout} className='hidden md:inline-flex items-center h-8 px-2 border
     border-transparent hover:border-red-600 hover:text-red-600 text-amazon_yellow cursor-pointer duration-300 '>
         Sign out
-    </p>
+    </button>
     </div>
   )
 }

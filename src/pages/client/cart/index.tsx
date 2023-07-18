@@ -11,6 +11,7 @@ type Props = {}
 const CartScreenClient = (props: Props) => {
     const { productData } = useSelector((state: StateProps) => state.next) as IInitialState
     return (
+        //className='max-w-screen-2xl mx-auto px-6 grid grid-cols-5 gap-10 py-4'
         <div className='max-w-screen-2xl mx-auto px-6 grid grid-cols-5 gap-10 py-4'>
             {
                 !productData.length ? (
@@ -21,9 +22,8 @@ const CartScreenClient = (props: Props) => {
                         </Link>
                     </div>
                 ) : (
-
-                    <>
-                        <div className='bg-white col-span-4 p-4 rounded-lg'>
+                    <div className='grid mdl:grid-cols-4 mdl:gap-5'>
+                        <div className='bg-white overflow-x-auto mdl:col-span-3  p-4 rounded-lg'>
                             <div className="lex items-center justify-between border-b-[1px] border-b-gray-400 pb-1" >
                                 <p className="text-2xl font-semibold text-amazon_blue">
                                     Shopping Cart
@@ -42,13 +42,12 @@ const CartScreenClient = (props: Props) => {
 
                             </div>
                         </div>
-
-                    </>
+                        <div className="bg-white h-64 rounded-lg p-4 flex items-center md:mt-2 mdl:mt-0 justify-center">
+                            <CartPayment />
+                        </div>
+                    </div>
                 )
             }
-            <div className="bg-white h-64 col-span-1 p-4 rounded-lg flex items-center justify-center">
-                <CartPayment />
-            </div>
         </div>
     )
 }
