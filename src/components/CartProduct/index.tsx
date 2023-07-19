@@ -12,7 +12,7 @@ const CartProduct = ({ item }: Props) => {
     const dispatch = useAppDispatch();
     
     return (
-        <div className='bg-gray-100 mb:2 rounded-lg md:flex items-center gap-4 grid grid-cols-1'>
+        <div className='bg-gray-100 rounded-lg md:flex items-center gap-4 grid grid-cols-1 mdl:grid-cols-3  '>
             <Image
                 src={item.image}
                 width={150}
@@ -20,7 +20,7 @@ const CartProduct = ({ item }: Props) => {
                 alt="productImage"
                 className="object-cover"
             />
-            <div className="grid md:flex grid-cols-1 md:gap-5 mb-2 items-center px-2 gap-4">
+            <div className="grid md:flex grid-cols-1 md:gap-5  items-center px-2 gap-4">
                 <div className="grid-cols-4 md:flex flex-col gap-1">
                     <p className="text-lg font-semibold text-amazon_blue">{item.title}</p>
                     <p className="text-sm text-gray-600">{item.description}</p>

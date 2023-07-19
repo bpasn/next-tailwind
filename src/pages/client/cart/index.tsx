@@ -12,7 +12,7 @@ const CartScreenClient = (props: Props) => {
     const { productData } = useSelector((state: StateProps) => state.next) as IInitialState
     return (
         //className='max-w-screen-2xl mx-auto px-6 grid grid-cols-5 gap-10 py-4'
-        <div className='max-w-screen-2xl mx-auto px-6 grid grid-cols-5 gap-10 py-4'>
+        <div className=' px-6 py-4'>
             {
                 !productData.length ? (
                     <div className='bg-white h-64 col-span-5 flex flex-col items-center justify-center py-5 rounded-lg'>

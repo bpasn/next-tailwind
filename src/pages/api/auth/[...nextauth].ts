@@ -6,7 +6,11 @@ import { User, Session } from "next-auth";
 import CredentialsProvider from 'next-auth/providers/credentials'
 import NextAuth from "next-auth/next";
 import GitHubProvider from 'next-auth/providers/github'
+import GoogleProvider from 'next-auth/providers/google'
 export default NextAuth({
+    pages: {
+        error:"/api/auth/signin"
+    },
     session: {
         strategy: "jwt",
         maxAge: 1000 * 60 * 60 / 1000 // 1 hour
@@ -14,6 +18,7 @@ export default NextAuth({
     jwt: {
         maxAge: 1000 * 60 * 60 / 1000 // 1 hour
     },
+
     secret: process.env.AUTH_SECRET,
     callbacks: {
         async jwt({ token, user }: { token: JWT; user?: User }) {
@@ -33,10 +38,18 @@ export default NextAuth({
     providers: [
         CredentialsProvider({
             credentials: {
-                email: {},
+                email: {
+
+                },
                 password: {}
             },
             async authorize(credentials, req) {
+                if(!credentials?.email){
+                    throw new Error("Plase Enter your Email")
+                }
+                if(!credentials?.password){
+                    throw new Error("Password field is required!")
+                }
                 // Add logic here to look up the user from the credentials supplied
                 await db.connect();
                 const user = await UserModel.findOne({
@@ -57,7 +70,7 @@ export default NextAuth({
                     name: profile.name || profile.login,
                     gh_username: profile.login,
                     email: profile.email,
-                    image:profile.avatar_url
+                    image: profile.avatar_url
                 }
             },
             clientId: process.env.GITHUB_ID as string,

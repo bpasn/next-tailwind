@@ -30,10 +30,12 @@ const Header = (props: Props) => {
         <header className='w-full h-20 bg-amazon_blue text-white sticky top-0 z-50'>
             <div className='h-full w-full mx-auto inline-flex items-center justify-between gap-1 mdl:gap-3 px-4'>
                 {/* Login */}
-                <div className="px-2 border border-transparent hover:border-white 
+                <Link href={'/'}>
+                    <div className="px-2 border border-transparent hover:border-white 
             cursor-pointer duration-300 flex items-center justify-center h-[70%]">
-                    <Image src={logo} alt='logoImg' className='w-28 object-cover mt-1' />
-                </div>
+                        <Image src={logo} alt='logoImg' className='w-28 object-cover mt-1' />
+                    </div>
+                </Link>
                 {/* delivery */}
                 <div className='px-2 border border-transparent hover:border-white 
             cursor-pointer duration-300 items-center justify-center h-[70%]
@@ -57,16 +59,20 @@ const Header = (props: Props) => {
                 </div>
                 {/* signin */}
                 {userInfo ? (
-                    <div 
+                    <div
                         className='flex items-center px-2 border border-transparent hover:border-white 
                         cursor-pointer duration-300 h-[70%] gap-1'>
-                        <img src={userInfo.image.toString()} alt="userImage" className='w-8 h08 rounded-full object-cover' />
+                        <img src={userInfo?.image?.toString() ?? ""} alt="userImage" className='w-8 h-8 rounded-full object-cover' />
                         <div className='text-xs text-gray-100 flex flex-col justify-between'>
                             <p className='text-white font-bold'>{userInfo.name}</p>
                             <p>{userInfo.email}</p>
                         </div>
                     </div>) : (
-                    <div onClick={() => signIn("github")} className='text-xs text-gray-100 flex flex-col justify-center px-2 border border-transparent hover:border-white cursor-pointer duration-300 h-[70%]'>
+                    <div onClick={() => signIn("",{
+                        redirect:false
+                    }).then(e => {
+
+                    })} className='text-xs text-gray-100 flex flex-col justify-center px-2 border border-transparent hover:border-white cursor-pointer duration-300 h-[70%]'>
                         <p>Hello, sign in</p>
                         <p className='text-white font-bold flex items-center'>Account & Lists
                             <span>

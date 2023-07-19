@@ -33,6 +33,12 @@ const MyApp: React.FunctionComponent<MyAppProp> = (props) => {
   }
   return (
     <SessionProvider session={session}>
+      <Head>
+                <title>Amazona</title>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <meta name="description" content="Ecommerce Website" />
+                <link rel="icon" href="/favicon.ico" />
+              </Head>
       <PersistGate persistor={persistor} loading={null}>
       <div className='font-bodyFont bg-gray-300'>
         {loading && <Backdrop />}
@@ -40,11 +46,7 @@ const MyApp: React.FunctionComponent<MyAppProp> = (props) => {
         
           <Auth>
             <React.Suspense fallback={loading && <>Loading....</>}>
-              <Head>
-                <title>Amazona</title>
-                <meta name="description" content="Ecommerce Website" />
-                <link rel="icon" href="/favicon.ico" />
-              </Head>
+              
               <RootLayout>
                 <Component {...pageProps} />
               </RootLayout>
@@ -53,11 +55,6 @@ const MyApp: React.FunctionComponent<MyAppProp> = (props) => {
         ) :
           (
             <React.Suspense fallback={loading && <>Loading....</>}>
-              <Head>
-                <title>Amazona</title>
-                <meta name="description" content="Ecommerce Website" />
-                <link rel="icon" href="/favicon.ico" />
-              </Head>
               <RootLayout>
                 <Component {...pageProps} />
               </RootLayout>
