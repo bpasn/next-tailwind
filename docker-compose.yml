@@ -1,5 +1,21 @@
 version: "3.8"
+
+networks:
+  nextjs:
+    name: nextjs_network
+    driver: bridge
 services:
+  # nextjs:
+  #   build: .
+  #   networks:
+  #     - nextjs
+  # nginx:
+  #   build: ./docker/nginx
+  #   ports:
+  #     - 80:80
+  #   networks:
+  #     - nextjs
+  
   database:
     mem_limit: 128M
     mem_reservation: 128M
@@ -16,3 +32,6 @@ services:
     volumes:
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
       - ./db:/data/db
+    networks:
+      - nextjs
+    

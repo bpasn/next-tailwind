@@ -2,16 +2,24 @@ import CartProduct from '@/components/CartProduct'
 import CartPayment from '@/components/Payment'
 import ResetCart from '@/components/ResetCart'
 import { IInitialState } from '@/utils/slice/nextSlice'
+import { Metadata } from 'next'
+import Head from 'next/head'
 import Link from 'next/link'
 import React from 'react'
 import { useSelector } from 'react-redux'
-
 type Props = {}
-
+export const metadata:Metadata = {
+    title:'Shopping Cart',
+    description:"Check cart item productions"
+}
 const CartScreenClient = (props: Props) => {
     const { productData } = useSelector((state: StateProps) => state.next) as IInitialState
     return (
         //className='max-w-screen-2xl mx-auto px-6 grid grid-cols-5 gap-10 py-4'
+        <>
+         <Head>
+            <title>Shopping Cart</title>
+          </Head>
         <div className=' px-6 py-4'>
             {
                 !productData.length ? (
@@ -49,7 +57,7 @@ const CartScreenClient = (props: Props) => {
                 )
             }
         </div>
+        </>
     )
 }
-
 export default CartScreenClient

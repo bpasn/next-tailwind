@@ -40,7 +40,7 @@ const menu: IMenuItem[] = [
     },
    
 ]
-const LayOut: React.FC<Props> = ({ children }) => {
+const LayoutOne: React.FC<Props> = ({ children }) => {
     const { cart: { cartItems } } = useSelector(selectCart)
     const { status, data: session } = useSession()
     const dispatch: AppDispatch = useAppDispatch()
@@ -113,4 +113,4 @@ const LayOut: React.FC<Props> = ({ children }) => {
     )
 }
 
-export default LayOut
+export default LayoutOne

@@ -4,6 +4,7 @@ export interface ISideNavContent {
 }
 export interface ISideChildrenContent {
     listTXT: string;
+    title?: boolean;
     children?: ISideChildrenContent[]
 }[]
 const sideNavContent: ISideNavContent[] = [
@@ -14,21 +15,34 @@ const sideNavContent: ISideNavContent[] = [
                 listTXT: "Amazon Music",
                 children: [
                     {
-                        listTXT:"Amaxon",
-                        children:[
+                        title: true,
+                        listTXT: "Stream Music",
+                        children: [
                             {
-                                listTXT:"Azsasdfasdf"
+                                title: false,
+                                listTXT: "Amazon Music Unlimited"
                             },
                             {
-                                listTXT:"Azsasdfasdf"
+                                title: false,
+                                listTXT: "Free Streaming Music"
+                            },
+                            {
+                                title: false,
+                                listTXT: "Podcasts"
+                            },
+                            {
+                                title: false,
+                                listTXT: "Open Web Player"
+                            },
+                            {
+                                title: false,
+                                listTXT: "Open Web Player"
+                            },
+                            {
+                                title: false,
+                                listTXT: "Download the app"
                             },
                         ]
-                    },
-                    {
-                        listTXT:"Amaxon"
-                    },
-                    {
-                        listTXT:"Amaxon"
                     },
                 ]
             },

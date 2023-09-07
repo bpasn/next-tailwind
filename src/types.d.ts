@@ -16,12 +16,22 @@ interface StoreProduct extends ProductProps {
 }
 
 interface StoreUser {
-    name:string;
-    email:string;
-    image:string;
+    name: string;
+    email: string;
+    image: string;
 }
 
 
 interface StateProps {
     next: IInitialState
+}
+
+interface MenuItem {
+    name: string;
+    icons?: string;
+    link?: string;
+    title?: boolean;
+    subtitle?: boolean;
+    child?: MenuItem[],
+    linkParent?: string;
 }

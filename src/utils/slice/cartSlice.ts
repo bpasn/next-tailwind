@@ -128,5 +128,5 @@ export const {
     saveShippingAddress,
     savePaymentMethod,
     clearCartItem } = cartSlice.actions;
-export const selectCart = (state: AppState) => state.cartReduce
+export const selectCart = (state: AppState) => state.cartReduce;
 export default cartSlice.reducer

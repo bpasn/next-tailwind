@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs'
-const data: { products: IProduct[], users: IUsers[] } = {
+
+const data: { products: IProduct[], users: IUsers[], menus: MenuItem[] } = {
     users: [
         {
             name: "Jhon",
@@ -92,6 +93,122 @@ const data: { products: IProduct[], users: IUsers[] } = {
             description: 'A popular pants',
         },
     ],
+    menus: [
+        {
+            name: "Digital Content & Devices",
+            icons: "",
+            title: true,
+            child: [
+                {
+                    link: "/",
+                    title: false,
+                    name: "Amazon Music",
+                    icons: "",
+                    child: [
+                        {
+                            link: '/',
+                            title: true,
+                            name: "Stream Music",
+                            child: [
+                                {
+                                    link: '/',
+                                    name: "Amazon Music Unlimited ",
+                                    icons: ''
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    link: "/",
+                    title: false,
+                    name: "Kindle E-readers & Books",
+                    icons: ""
+                },
+                {
+                    link: "/",
+                    title: false,
+                    name: "Amazon Appstore",
+                    icons: ""
+                },
+            ]
+        },
+        {
+            name: "Shop By Department",
+            icons: "",
+            title: true,
+            child: [
+                {
+                    link: "/",
+                    title: false,
+                    name: "Electronics",
+                    icons: ""
+                },
+                {
+                    link: "/",
+                    title: false,
+                    name: "Computers",
+                    icons: ""
+                },
+                {
+                    link: "/",
+                    title: false,
+                    name: "Smart Home",
+                    icons: ""
+                },
+            ]
+        },
+        {
+            name: "Programs & Features",
+            icons: "",
+            title: true,
+            child: [
+                {
+                    link: "/",
+                    title: false,
+                    name: "Gift Cards",
+                    icons: ""
+                },
+                {
+                    link: "/",
+                    title: false,
+                    name: "Amazon live",
+                    icons: ""
+                },
+                {
+                    link: "/",
+                    title: false,
+                    name: "International Shopping",
+                    icons: ""
+                },
+            ]
+        },
+        {
+            name: "Help & Settings",
+            icons: "",
+            title: true,
+            child: [
+                {
+                    link: "/",
+                    title: false,
+                    name: "Your Account",
+                    icons: ""
+                },
+                {
+                    link: "/",
+                    title: false,
+                    name: "Customer Service",
+                    icons: ""
+                },
+                {
+                    link: "/",
+                    title: false,
+                    name: "Contact us",
+                    icons: ""
+                },
+            ]
+        },
+    ]
 };
 
 export default data;

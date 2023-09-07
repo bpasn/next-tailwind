@@ -6,29 +6,29 @@ import { User, Session } from "next-auth";
 import CredentialsProvider from 'next-auth/providers/credentials'
 import NextAuth from "next-auth/next";
 import GitHubProvider from 'next-auth/providers/github'
-import GoogleProvider from 'next-auth/providers/google'
+import { toast } from "react-toastify";
 export default NextAuth({
     pages: {
         error:"/api/auth/signin"
     },
     session: {
         strategy: "jwt",
-        maxAge: 1000 * 60 * 60 / 1000 // 1 hour
+        maxAge: 1000  * 60 / 1000 // 1 hour
     },
     jwt: {
-        maxAge: 1000 * 60 * 60 / 1000 // 1 hour
+        maxAge: 1000  * 60 / 1000 // 1 hour
     },
 
     secret: process.env.AUTH_SECRET,
     callbacks: {
         async jwt({ token, user }: { token: JWT; user?: User }) {
-            console.log(token, user)
+            console.log({token,user})
             if (user?._id) token._id = user._id;
             if (user?.isAdmin) token.isAdmin = user.isAdmin
             return { ...token, user };
         },
         async session({ session, token }: { session: Session, token: JWT }) {
-
+          
             if (token?._id && session.user) session.user._id = token._id;
             if (token?.isAdmin && session.user) session.user.isAdmin = token.isAdmin
             return Promise.resolve({ ...session, token });
@@ -38,12 +38,11 @@ export default NextAuth({
     providers: [
         CredentialsProvider({
             credentials: {
-                email: {
-
-                },
+                email: {},
                 password: {}
             },
             async authorize(credentials, req) {
+                console.log(credentials)
                 if(!credentials?.email){
                     throw new Error("Plase Enter your Email")
                 }
@@ -60,7 +59,8 @@ export default NextAuth({
                     return user
                 }
                 throw new Error("Invalid Email or password")
-            }
+            },
+            
         }),
         GitHubProvider({
             name: "github",

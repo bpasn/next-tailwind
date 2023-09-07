@@ -2,6 +2,7 @@ import mongoose, { FlattenMaps, Types } from "mongoose";
 
 const connections: { isConnected: number | boolean } = { isConnected: false };
 async function connect() {
+    console.log(mongoose.connections)
     if (connections.isConnected) {
         console.log("already connected")
         return;

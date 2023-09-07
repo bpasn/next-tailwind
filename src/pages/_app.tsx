@@ -1,12 +1,12 @@
 'use client';
-import LayOut from '@/components/Layout';
+import LayOut from '@/components/Layout/LayoutOne';
 import "@/styles/global.css"
 import { persistor, wrapper } from '@/utils/Store';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Router, useRouter } from 'next/router';
 import { SessionProvider, useSession } from 'next-auth/react';
-import {PersistGate} from 'redux-persist/integration/react'
+import { PersistGate } from 'redux-persist/integration/react'
 import React from 'react'
 import type { NextComponentType } from 'next/types';
 import { Backdrop, RootLayout } from '@/components';
@@ -33,37 +33,35 @@ const MyApp: React.FunctionComponent<MyAppProp> = (props) => {
   }
   return (
     <SessionProvider session={session}>
-      <Head>
-                <title>Amazona</title>
-                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                <meta name="description" content="Ecommerce Website" />
-                <link rel="icon" href="/favicon.ico" />
-              </Head>
-      <PersistGate persistor={persistor} loading={null}>
-      <div className='font-bodyFont bg-gray-300'>
-        {loading && <Backdrop />}
-        {Component.auth ? (
-        
-          <Auth>
-            <React.Suspense fallback={loading && <>Loading....</>}>
-              
-              <RootLayout>
-                <Component {...pageProps} />
-              </RootLayout>
-            </React.Suspense>
-          </Auth> 
-        ) :
-          (
-            <React.Suspense fallback={loading && <>Loading....</>}>
-              <RootLayout>
-                <Component {...pageProps} />
-              </RootLayout>
-            </React.Suspense>
-           
-          )
-        }
-      </div>
-      </PersistGate>
+          <Head>
+          <title>Amazona clone</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <meta name="description" content="Ecommerce Website" />
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <PersistGate persistor={persistor} loading={null}>
+            <div className='font-bodyFont bg-gray-300'>
+              {loading && <Backdrop />}
+              {Component.auth ? (
+                <Auth>
+                  <React.Suspense fallback={loading && <>Loading....</>}>
+                    <RootLayout>
+                      <Component {...pageProps} />
+                    </RootLayout>
+                  </React.Suspense>
+                </Auth>
+              ) :
+                (
+                  <React.Suspense fallback={loading && <>Loading....</>}>
+                    <RootLayout>
+                      <Component {...pageProps} />
+                    </RootLayout>
+                  </React.Suspense>
+
+                )
+              }
+            </div>
+          </PersistGate>
     </SessionProvider>
   )
 }

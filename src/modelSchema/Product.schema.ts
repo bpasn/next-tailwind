@@ -20,7 +20,6 @@ const productSchema = new mongoose.Schema<IProduct>(
     timestamps: true
 }
 );
-
 const ProductModel:mongoose.Model<IProduct> = mongoose.models.Product || mongoose.model<IProduct>("Product", productSchema);
 
 export default ProductModel
